@@ -3,16 +3,12 @@ package mx.edu.utez.libros.controller;
 import mx.edu.utez.libros.controller.Dto.BookDto;
 import mx.edu.utez.libros.model.Book;
 import mx.edu.utez.libros.service.BookService;
-import mx.edu.utez.libros.service.CustomResponse;
+import mx.edu.utez.libros.service.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,7 +28,7 @@ public class BookController {
     }
 
     @GetMapping("/oneBook")
-    public ResponseEntity<CustomResponse<List<Book>>> getBook(@RequestParam String nombre) {
+    public ResponseEntity<Response<List<Book>>> getBook(@RequestParam String nombre) {
         return new ResponseEntity<>(
                 this.service.getOneBook(nombre),
                 HttpStatus.OK
@@ -69,7 +65,7 @@ public class BookController {
 
 
     @PostMapping("/")
-    public ResponseEntity<CustomResponse<Book>> insertBook(@RequestBody BookDto bookDto){
+    public ResponseEntity<Response<Book>> insertBook(@RequestBody BookDto bookDto){
         return new ResponseEntity<>(
                 this.service.insertBook(bookDto),
                 HttpStatus.CREATED
@@ -78,7 +74,7 @@ public class BookController {
 
 
     @PutMapping("/update")
-    public ResponseEntity<CustomResponse<Book>> updateBook(@RequestBody BookDto bookDto){
+    public ResponseEntity<Response<Book>> updateBook(@RequestBody BookDto bookDto){
         return new ResponseEntity<>(
                 this.service.updateBook(bookDto.getBooks()),
                 HttpStatus.OK
@@ -86,7 +82,7 @@ public class BookController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<CustomResponse<Book>> deleteBook(@PathVariable("id") Long id){
+    public ResponseEntity<Response<Book>> deleteBook(@PathVariable("id") Long id){
         return new ResponseEntity<>(
                 this.service.deleteBookById(id),
                 HttpStatus.OK

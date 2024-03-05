@@ -18,6 +18,7 @@ public class BookDto {
 
     private String nombre;
     private String autor;
+    private String portada;
     private Timestamp fechaPublicacion;
 
     public Book getBooks(){
@@ -25,6 +26,7 @@ public class BookDto {
                 getId(),
                 getNombre(),
                 getAutor(),
+                getPortada(),
                 getFechaPublicacion()
         );
     }

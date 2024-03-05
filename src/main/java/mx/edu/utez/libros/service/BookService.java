@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,8 +20,8 @@ public class BookService {
     private BookRepository repository;
 
     @Transactional(readOnly = true)
-    public CustomResponse<List<Book>> getAllBooks() {
-       return new CustomResponse<>(
+    public Response<List<Book>> getAllBooks() {
+       return new Response<>(
                this.repository.findAll(),
                false,
                200,
@@ -30,9 +29,9 @@ public class BookService {
        );
     }
     @Transactional(rollbackFor = SQLException.class)
-    public CustomResponse<List<Book>> getOneBook(String nombre) {
+    public Response<List<Book>> getOneBook(String nombre) {
         if (nombre == null){
-            return new CustomResponse<>(
+            return new Response<>(
                     null,
                     true,
                     400,
@@ -40,7 +39,7 @@ public class BookService {
             );
         }
 
-       return new CustomResponse<>(
+       return new Response<>(
                this.repository.findBookByNombre(nombre),
                false,
                200,
@@ -49,57 +48,57 @@ public class BookService {
 
     }
     @Transactional(rollbackFor = {SQLException.class})
-    public CustomResponse<List<Book>> getAutorAsc() {
+    public Response<List<Book>> getAutorAsc() {
         List<Book> book;
         book = this.repository.findAllByOrderByAutorAsc();
-        return new CustomResponse<>(
+        return new Response<>(
                 book,
                 false,
                 200,
-                "Autores Ascedente"
+                "AUTORES DE FORMA ASCENDENTE"
         );
     }
 
     @Transactional(rollbackFor = {SQLException.class})
-    public CustomResponse<List<Book>> getAutorDesc() {
+    public Response<List<Book>> getAutorDesc() {
         List<Book> book;
         book = this.repository.findAllByOrderByAutorDesc();
-        return new CustomResponse<>(
+        return new Response<>(
                 book,
                 false,
                 200,
-                "Autores Descendente"
+                "AUTORES DE FORMA DESCENDENTE"
         );
     }
 
 
     @Transactional(rollbackFor = {SQLException.class})
-    public CustomResponse<List<Book>> getFechasAsc() {
+    public Response<List<Book>> getFechasAsc() {
         List<Book> libro;
         libro = this.repository.findAllByOrderByFechaPublicacionAsc();
-        return new CustomResponse<>(
+        return new Response<>(
                 libro,
                 false,
                 200,
-                "Fechas Ascendente"
+                "FECHAS DE FORMA ASCENDENTE"
         );
     }
 
     @Transactional(rollbackFor = {SQLException.class})
-    public CustomResponse<List<Book>> getFechasDesc() {
+    public Response<List<Book>> getFechasDesc() {
         List<Book> libro;
         libro = this.repository.findAllByOrderByFechaPublicacionDesc();
-        return new CustomResponse<>(
+        return new Response<>(
                 libro,
                 false,
                 200,
-                "Fechas Descendente"
+                "FECHAS DE FORMA DESCENDENTE"
         );
     }
 
     @Transactional(rollbackFor = {SQLException.class})
-    public CustomResponse<Book> insertBook(BookDto book) {
-        return new CustomResponse<>(
+    public Response<Book> insertBook(BookDto book) {
+        return new Response<>(
             this.repository.saveAndFlush(book.getBooks()),
             false,
             200,
@@ -108,17 +107,17 @@ public class BookService {
     }
 
     @Transactional(rollbackFor = SQLException.class)
-    public CustomResponse<Book> deleteBookById(Long id) {
+    public Response<Book> deleteBookById(Long id) {
         if (this.repository.existsById(id)) {
             this.repository.deleteById(id);
-            return new CustomResponse<>(
+            return new Response<>(
                     null,
                     false,
                     200,
                     "LIBRO ELIMINADO"
             );
         }
-        return new CustomResponse<>(
+        return new Response<>(
                 null,
                 true,
                 400,
@@ -126,8 +125,8 @@ public class BookService {
         );
     }
 
-    public CustomResponse<Book> updateBook(Book book) {
-        return new CustomResponse(
+    public Response<Book> updateBook(Book book) {
+        return new Response(
                 this.repository.saveAndFlush(book),
                 false,
                 200,
