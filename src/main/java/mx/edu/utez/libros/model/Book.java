@@ -24,7 +24,6 @@ public class Book {
 
     private String nombre;
     private String autor;
-
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date fechaPublicacion;
